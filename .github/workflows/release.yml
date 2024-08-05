@@ -28,12 +28,12 @@ jobs:
     - name: Archive Release packages
       shell: bash
       run: |
-        touch t0.7z
-        tar --exclude=t0.7z cvzf t0.7z "."
+        mkdir artefacts
+        tar -zcvf artefacts/t0.7z --exclude=./artefacts .
     - name: create release and upload assets
       uses: softprops/action-gh-release@v2
       with:
         files: |
-          t0.7z
+          artefacts/t0.7z
           t1.7z
         tag_name: ${{ github.event.inputs.tags }}

@@ -28,7 +28,8 @@ jobs:
     - name: Archive Release packages
       shell: bash
       run: |
-        tar cvzf t0.7z "."
+        touch t0.7z
+        tar --exclude=t0.7z cvzf t0.7z "."
     - name: create release and upload assets
       uses: softprops/action-gh-release@v2
       with:

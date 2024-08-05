@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     permissions: write-all
     steps:
     - uses: actions/checkout@v4
@@ -19,15 +19,15 @@ jobs:
         docker build . -t judge-server
     - name: Get file sizes
       run: |
-        gci -rec -file|%{"$($_.Fullname) $($_.Length)"} >filelist.txt
-    - name: Archive Release packages
-      shell: bash
-      run: |
-        "/c/Program Files/7-Zip/7z.exe" a -m0=lzma2 -mx t0.7z "."
+        ls -l > filelist.txt
     - name: Archive filelist
       shell: bash
       run: |
-        "/c/Program Files/7-Zip/7z.exe" a -m0=lzma2 -mx t1.7z "filelist.txt"
+        tar cvzf t1.7z "filelist.txt"
+    - name: Archive Release packages
+      shell: bash
+      run: |
+        tar cvzf t0.7z "."
     - name: create release and upload assets
       uses: softprops/action-gh-release@v2
       with:

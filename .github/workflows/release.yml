@@ -14,15 +14,9 @@ jobs:
     - uses: actions/checkout@v4
       with:
         ref: master    
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
     - name: Build
-      uses: docker/build-push-action@v5
-      with:
-        push: false
-        platforms: linux/amd64,linux/arm64
-        tags: judge-server:latest
-        
+      run:
+        docker build . -t judge-server
     - name: Get file sizes
       run: |
         gci -rec -file|%{"$($_.Fullname) $($_.Length)"} >filelist.txt
